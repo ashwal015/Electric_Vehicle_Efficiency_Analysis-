@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-#step 1 -----------------> Cleaning Data
-
 #File paths
 raw_csv = 'C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Analysis\\data\\raw\\electric_vehicles_spec_2025.csv'
 clean_csv = 'C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Analysis\\data\\processed\\electric_vehicles_spec_2025_cleaned.csv'
@@ -14,6 +12,9 @@ clean_csv = 'C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Ana
 df = pd.read_csv(raw_csv)
 print(f"Raw Data Shape: {df.shape}")
 df.info()
+
+#step 1 -----------------------------------> Cleaning Data
+
 # Fill missing values
 df.fillna({
     'number_of_cells': '-1',
@@ -31,98 +32,67 @@ df['cargo_volume_l'] = df['cargo_volume_l_Num'].apply(lambda x: x*24 if x < 100 
 df.fillna({'cargo_volume_l': '-1'}, inplace=True)
 df.drop(columns=['cargo_volume_l_Temp', 'cargo_volume_l_Num'], inplace=True)
 
-# here Saving cleaned Excel to proccesses folder
+# here Saving cleaned Excel to processed folder
 os.makedirs(os.path.dirname(clean_csv), exist_ok=True)
 df.to_csv(clean_csv, index=False)
 print(f"Cleaned CSV saved at: {clean_csv}")
 
+#part 2 -----------------------------------> Analyze the trade-off between efficiency (Wh/km) and performance metrics
 
+#Acceleration (0-100 km/h time)
+#op speed (km/h)**
+#Torque (Nm)
+#Randomly choosing only 25 to get more cleaner look
 
-#part 2 -------------------> grouping and binning efficiency col for better visualization
-#binning efficiency_wh_per_km col
-
-bins = [0, 100, 200, 300, 400]
-labels = ['Very Efficient', 'Efficient', 'Average', 'Inefficient']
-df['efficiency_wh_per_km_Binned'] = pd.cut(df['efficiency_wh_per_km'], bins=bins, labels=labels)
-df['efficiency_wh_per_km_Binned'] = ( df['efficiency_wh_per_km_Binned'].cat.remove_unused_categories())
-
-# Filtering brands removing unnecessary one's and keeping only top EU brands
-top_eu_brands = ['Audi', 'BMW', 'Mercedes-Benz', 'Volkswagen'
-    , 'Porsche','Volvo', 'Renault', 'Peugeot', 'Skoda']
-#Filtering brands removing unnecessary one's and keeping only top brands in world
-top_global_brands = [
-    'Tesla', 'Toyota', 'Hyundai', 'Kia',
-    'Volkswagen', 'BMW', 'Mercedes-Benz', 'Audi', 'Volvo'
-]
-
-# part3 --------------------------> Grouping function
-def group_by_efficiency(df, brands):
-    # First filter by brands
-    filtered = df[df['brand'].isin(brands)].copy()
-
-    # Group and count
-    grouped = (
-        filtered
-        .groupby(['efficiency_wh_per_km_Binned', 'brand'], observed=False)
-        .size()
-        .reset_index(name='count')
-    )
-    return grouped
-
-
-#calling group_by_efficiency and passing  parameters
-
-# grouping car as per brand
-world_grouped = group_by_efficiency(df, top_global_brands)
-eu_grouped = group_by_efficiency(df, top_eu_brands)
-
-#part 4 ------------------------------------> Printing grouped bar chart
-
-
+# chart 1 : Acceleration vs Efficiency
+sample_df = df.sample(n=25, random_state=42)  # Randomly pick 25 rows (fixed seed for reproducibility)
+plt.figure(figsize=(10, 5))
+sns.scatterplot(data=sample_df, x='acceleration_0_100_s', y='efficiency_wh_per_km', hue='brand',s=100)
+plt.title('EV Efficiency vs Acceleration')
+plt.xlabel('Acceleration (0-100 km/h, seconds)')
+plt.ylabel('Efficiency (Wh/km)')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+# Faster acceleration = lower seconds, so invert x-axis
+#invert x-axis ---> 15 -> 10 -> 5 -> 0
+plt.gca().invert_xaxis()
 #It makes charts look like ggplot (clean, colorful, grid-style)
 plt.style.use('ggplot')
-fig, axes = plt.subplots(1, 2, figsize=(18, 6))
-#creating custom pallet for efficiency
-custom_palette = {
-    'Very Efficient': '#2E8B57',   # Sea green
-    'Efficient': '#66C2A5',        # Light green
-    'Average': '#FF8C00',           # Orange
-    'Inefficient': '#FF6347'       # Tomato red
-}
-#world_grouped bar chart
-sns.barplot(
-    data=world_grouped,
-    x='brand',
-    y='count',
-    hue='efficiency_wh_per_km_Binned',
-    palette = custom_palette,
-    ax=axes[0]
-)
-
-axes[0].set_title('World Top EV Brands – Efficiency')
-axes[0].set_xlabel('EV Car Brands')
-axes[0].set_ylabel('Efficiency (Wh/km)')
-axes[0].tick_params(axis='x', rotation=20)
-
-#eu_grouped bar chart
-sns.barplot(
-    data=eu_grouped,
-    x='brand',
-    y='count',
-    palette = custom_palette,
-    hue = 'efficiency_wh_per_km_Binned',
-    ax=axes[1]
-)
-axes[1].set_title('European Top EV Brands – Efficiency')
-axes[1].set_xlabel('EV Car Brands')
-axes[1].set_ylabel('Efficiency (Wh/km)')
-axes[1].tick_params(axis='x', rotation=20)
-# adjusting labes so they don't get cut of and fit in frame
 plt.tight_layout()
-#saving it to local folder
-output_file_path = 'C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Analysis\\output\\electric_vehicles_efficiency_charts.png'
-os.makedirs(os.path.dirname(output_file_path),exist_ok=True) # make a new folder if it not there
-plt.savefig(output_file_path, dpi= 300) #300 high resolution
-print(f"Charts saved at: {output_file_path}")
+plt.savefig("EV_Efficiency_vs_Acceleration.png")
+# Converting the column to numeric, coercing errors to NaN (for example, if some values are non-numeric)
+#df['fast_charging_power_kw_dc'] = pd.to_numeric(df['fast_charging_power_kw_dc'], errors='coerce')
+
+#droping rows where conversion failed (NaN values)
+#df_clean = df.dropna(subset=['fast_charging_power_kw_dc'])
+
+#Now you can safely get top 25 chargers
+#df_sample = df_clean.sample(n=25, random_state=42)
+
+#reducing dataset size to 25 best chargers for clarity
+#top_chargers = df_clean.nlargest(25, 'fast_charging_power_kw_dc')
+
+# chart 2 : Fast charging power vs Range
+plt.figure(figsize=(10, 5))
+sns.scatterplot(data=sample_df, x='fast_charging_power_kw_dc', y='range_km', hue='brand', s=100)
+plt.title('Fast Charging Power vs EV Range')
+plt.xlabel('Fast Charging Power (kW)')
+plt.ylabel('Range (km)')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.style.use('ggplot')
+plt.tight_layout()
+plt.savefig("Fast_Charging_Power_vs_EV_Range.png")
+
+# chart 3: Fast charging power vs Efficiency
+plt.figure(figsize=(10, 5))
+sns.scatterplot(data=sample_df, x='fast_charging_power_kw_dc', y='efficiency_wh_per_km', hue='brand', s=100)
+plt.title('Fast Charging Power vs EV Efficiency')
+plt.xlabel('Fast Charging Power (kW)')
+plt.ylabel('Efficiency (Wh/km)')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.style.use('ggplot')
+plt.tight_layout()
+plt.savefig("Fast_Charging_Power_vs_EV_Efficiency.png")
+
+#Part3 -------------------------------------> Printing Charts
 
 plt.show()
