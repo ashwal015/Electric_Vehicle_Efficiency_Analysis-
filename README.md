@@ -48,11 +48,15 @@ How to Run Project + Project Structure
 Project Structure
 EV_Efficiency_Analysis/
 │
-├── EV_Efficiency_Analysis_Visualization.py   # main script
-├── outputs/                                  # saved PNG visualizations
+├── EV_Efficiency_Analysis_Visualization.py      # Main Python script
+├── outputs/                                     # Saved PNG visualizations
 ├── README.md
 └── data/
-    └── ev_efficiency_2025.csv                # dataset
+    ├── raw/
+    │   └── electric_vehicles_spec_2025.csv     # Original dataset
+    └── processed/
+        └── electric_vehicles_spec_2025_cleaned.csv  # Cleaned dataset
+
 Steps to Run
 1.	Clone the repo:
 git clone https://github.com/ashwal015/Electric_Vehicle_Efficiency_Analysis-
@@ -68,7 +72,7 @@ Results and Conclusion
 •	Fast charging capabilities show brand-specific variations; consumers may prioritize either range, speed, or charging time depending on their needs.
 •	Visualizations clearly highlight trade-offs between efficiency and performance, aiding in data-driven decision-making.
 ________________________________________
-Future Work (Optional)
+Future Work
 •	Add interactive dashboard using Plotly or Streamlit
 •	Include more datasets with real-world driving data
 •	Predict efficiency based on battery, motor, and drivetrain parameters using simple regression models
