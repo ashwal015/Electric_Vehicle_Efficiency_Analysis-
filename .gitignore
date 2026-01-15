@@ -1,0 +1,42 @@
+# =========================
+# Python cache & temp files
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+# Virtual environment
+# =========================
+.venv/
+venv/
+env/
+
+# =========================
+# PyCharm / IDE settings
+# =========================
+.idea/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Jupyter (if ever used)
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Output files (OPTIONAL)
+# Uncomment if you do NOT want to track charts
+# =========================
+# outputs/
+# *.png
