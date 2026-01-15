@@ -58,7 +58,7 @@ plt.gca().invert_xaxis()
 #It makes charts look like ggplot (clean, colorful, grid-style)
 plt.style.use('ggplot')
 plt.tight_layout()
-plt.savefig("EV_Efficiency_vs_Acceleration.png")
+plt.savefig("C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Analysis\\output\\EV_Efficiency_vs_Acceleration.png")
 # Converting the column to numeric, coercing errors to NaN (for example, if some values are non-numeric)
 #df['fast_charging_power_kw_dc'] = pd.to_numeric(df['fast_charging_power_kw_dc'], errors='coerce')
 
@@ -80,7 +80,7 @@ plt.ylabel('Range (km)')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.style.use('ggplot')
 plt.tight_layout()
-plt.savefig("Fast_Charging_Power_vs_EV_Range.png")
+plt.savefig("C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Analysis\\output\\Fast_Charging_Power_vs_EV_Range.png")
 
 # chart 3: Fast charging power vs Efficiency
 plt.figure(figsize=(10, 5))
@@ -91,7 +91,7 @@ plt.ylabel('Efficiency (Wh/km)')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.style.use('ggplot')
 plt.tight_layout()
-plt.savefig("Fast_Charging_Power_vs_EV_Efficiency.png")
+plt.savefig("C:\\Users\\ramda\\PycharmProjects\\PythonProject\\EV_Efficiency_Analysis\\output\\Fast_Charging_Power_vs_EV_Efficiency.png")
 
 #Part3 -------------------------------------> Printing Charts
 
