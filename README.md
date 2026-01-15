@@ -1,5 +1,6 @@
 Electric_Vehicle_Efficiency_Analysis
-Brief One-Line Summary
+
+Brief Summary
 Analyzing the trade-off between EV efficiency, performance, and charging characteristics using Python.
 ________________________________________
 Overview
