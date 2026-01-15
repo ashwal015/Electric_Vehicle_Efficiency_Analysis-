@@ -44,8 +44,10 @@ All visualizations are saved as PNG files in the outputs/folder:
 •	Fast_Charging_Power_vs_EV_Efficiency.png
 •	Fast_Charging_Power_vs_EV_Range.png
 ________________________________________
-How to Run Project + Project Structure
+How to Run Project and Project Structure
 Project Structure
+
+
 EV_Efficiency_Analysis/
 │
 ├── EV_Efficiency_Analysis_Visualization.py      # Main Python script
@@ -56,6 +58,8 @@ EV_Efficiency_Analysis/
     │   └── electric_vehicles_spec_2025.csv     # Original dataset
     └── processed/
         └── electric_vehicles_spec_2025_cleaned.csv  # Cleaned dataset
+
+
 
 Steps to Run
 1.	Clone the repo:
