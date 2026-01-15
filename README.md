@@ -46,8 +46,7 @@ All visualizations are saved as PNG files in the outputs/folder:
 ________________________________________
 How to Run Project and Project Structure
 Project Structure
-
-
+'''
 EV_Efficiency_Analysis/
 │
 ├── EV_Efficiency_Analysis_Visualization.py      # Main Python script
@@ -58,9 +57,7 @@ EV_Efficiency_Analysis/
     │   └── electric_vehicles_spec_2025.csv     # Original dataset
     └── processed/
         └── electric_vehicles_spec_2025_cleaned.csv  # Cleaned dataset
-
-
-
+'''
 Steps to Run
 1.	Clone the repo:
 git clone https://github.com/ashwal015/Electric_Vehicle_Efficiency_Analysis-
