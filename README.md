@@ -16,7 +16,7 @@ Visualizations help compare brands and identify patterns between performance and
 - 	Fast Charging Power vs Efficiency – Trade-offs between efficiency and fast-charging capabilities.
 PNG charts are generated and saved in outputs/
 
-##Problem Statement
+## Problem Statement
 
 How do different EV models trade-off between performance, efficiency, and fast charging capabilities?
 Can we identify patterns or trends that help consumers or engineers optimize EV usage?
